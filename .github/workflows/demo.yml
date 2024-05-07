@@ -18,13 +18,13 @@ jobs:
   #     - name: Run a one-line script
   #       run: echo Hello, world!
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: arc-runner-set
+    container:
+      image: ubuntu:latest
+      options: --privileged
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Start Docker Service
-        run: |
-          sudo systemctl start docker
       - uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
