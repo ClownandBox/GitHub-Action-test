@@ -3,9 +3,6 @@ on: [push]
 jobs:
   deploy:
     runs-on: arc-runner-set
-    container:
-      image: cimg/base:stable
-      options: --privileged
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
