@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    circleci.com/project-id: 5330831d-f019-4d47-bc47-4e3979b4a05c
+  labels:
+    circleci.com/component-name: gateway
+    circleci.com/version: 1.0.0
+  name: gateway
+  namespace: github-app
+spec:
+  selector:
+    matchLabels:
+      circleci.com/component-name: gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        circleci.com/component-name: gateway
+        circleci.com/version: 1.0.0
+    spec:
+      containers:
+        - name: gateway-service
+          image: shengjieli/spring-petclinic-cloud-gateway:Build-14-CI
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: WEB_APP_ENDPOINT
+              value: http://web:8080
+            - name: VETS_SERVICE_ENDPOINT
+              value: http://vets:8080
+            - name: VISITS_SERVICE_ENDPOINT
+              value: http://visits:8080
+            - name: CUSTOMERS_SERVICE_ENDPOINT
+              value: http://customers:8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  labels:
+    svc: gateway
+spec:
+  selector:
+    app: gateway
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 31080
+  type: NodePort
