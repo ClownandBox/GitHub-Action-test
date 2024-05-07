@@ -4,7 +4,7 @@ jobs:
   deploy:
     runs-on: arc-runner-set
     container:
-      image: ubuntu:latest
+      image: cimg/base:stable
       options: --privileged
     steps:
       - name: Checkout code
