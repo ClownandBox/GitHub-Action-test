@@ -3,6 +3,9 @@ on: [push]
 jobs:
   deploy:
     runs-on: arc-runner-set
+    container:
+      image: ubuntu:latest
+      options: --privileged
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
